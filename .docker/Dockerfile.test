@@ -3,7 +3,21 @@ FROM govcms8lagoon/test
 COPY themes/ /app/web/themes/custom
 
 RUN rm -Rf /app/tests/behat/features/*
-COPY tests/behat/features/ /app/tests/behat/features
+COPY tests/behat/ /app/tests/behat
 
 RUN rm -Rf /app/tests/phpunit/tests/*
 COPY tests/phpunit/tests/ /app/tests/phpunit/tests
+
+COPY tests/composer.json tests/composer.lock /app/tests/
+
+COPY .docker/scripts/behat .docker/scripts/lint-theme /usr/bin/
+
+COPY .docker/scripts/phpcs.xml /app/
+
+RUN rm -Rf /app/tests/behat/screenshots \
+&& mkdir /app/tests/behat/screenshots \
+&& echo "memory_limit=-1" >> /usr/local/etc/php/conf.d/memory.ini \
+&& composer install -d /app/tests -n --ansi --prefer-dist --no-suggest \
+&& rm -rf /usr/local/etc/php/conf.d/memory.ini \
+&& chmod +x /usr/bin/behat \
+&& chmod +x /usr/bin/lint-theme \
