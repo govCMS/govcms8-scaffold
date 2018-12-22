@@ -14,6 +14,7 @@ x-volumes:
       - ./tests/behat/features:/app/web/tests/behat/features:${VOLUME_FLAGS:-delegated}
       - ./tests/phpunit/tests:/app/web/tests/phpunit/tests:${VOLUME_FLAGS:-delegated}
       - ./config:/app/config
+      - ./modules:/app/web/modules/custom:${VOLUME_FLAGS:-delegated}
 
 x-environment:
   &default-environment
