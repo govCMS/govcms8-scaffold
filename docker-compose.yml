@@ -56,7 +56,6 @@ services:
       dockerfile: .docker/Dockerfile.nginx-drupal
       args:
         CLI_IMAGE: *lagoon-project
-        X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
     labels:
       lagoon.type: nginx-php-persistent
       lagoon.persistent: /app/web/sites/default/files/
@@ -66,6 +65,7 @@ services:
     environment:
       << : *default-environment
       LAGOON_LOCALDEV_URL: *default-url
+      X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
     networks:
       - amazeeio-network
       - default

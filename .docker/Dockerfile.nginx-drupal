@@ -4,6 +4,3 @@ FROM ${CLI_IMAGE} as cli
 FROM govcms8lagoon/nginx-drupal
 
 COPY --from=cli /app /app
-
-ARG X_FRAME_OPTIONS
-RUN envsubst < /etc/nginx/conf.d/drupal/location_drupal_append_x_frame_options.template > /etc/nginx/conf.d/drupal/location_drupal_append_x_frame_options.conf
