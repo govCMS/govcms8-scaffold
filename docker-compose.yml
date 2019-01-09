@@ -65,6 +65,7 @@ services:
     environment:
       << : *default-environment
       LAGOON_LOCALDEV_URL: *default-url
+      X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
     networks:
       - amazeeio-network
       - default
