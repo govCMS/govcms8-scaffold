@@ -51,7 +51,25 @@ Additional commands are listed in `.ahoy.yml`, or available from the command lin
 * You should create your theme(s) in folders under `/themes`
 * Tests specific to your site can be committed to the `/tests` folders
 * The files folder is not (currently) committed to GitLab.
-* Do not make changes to `docker-compose.yml`, `lagoon.yml`, `.gitlab-ci.yml` or the Dockerfiles under `/.docker` - these will result in your project being unable to deploy to GovCMS SaaS
+* Do not commit changes to `docker-compose.yml`, `lagoon.yml`, `.gitlab-ci.yml` or the Dockerfiles under `/.docker` - these will result in your project being unable to deploy to GovCMS SaaS
+
+## Local Development - enable XDEBUG
+Please find below the steps to enable XDEBUG on your local environment. 
+The instructions are specific to PHPStorm and Chrome.
+
+### Edit docker.compose.yml 
+* Remove this line - `DEV_MODE: ${DEV_MODE:-false}`
+* Add this line instead - `XDEBUG_ENABLE: "true"`
+DO NOT COMMIT THIS FILE
+
+### Copy docker folder to the host
+* `docker cp govcms8-scaffold_test_1:/app .`
+
+### Add server settings to PHPStorm
+The settings can be seen in the screenshot below:
+![alt text](/PHPStorm_server_settings.png?raw=true "PHPStrom")
+
+## Install and enable `Xdebug helper` extension in chrome 
 
 ## Image inheritance
 
