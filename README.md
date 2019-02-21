@@ -32,7 +32,7 @@
         Mac/Linux:  ahoy up
         Windows:    docker-compose up -d
 
-3. Install GovCMS:
+3. Install GovCMS (only do this if you are building a new site - otherwise see the Databases section below):
 
         Mac/Linux:  ahoy install
         Windows:    docker-compose exec -T test drush si -y govcms
@@ -52,6 +52,8 @@ The GovCMS projects have been designed to be able to import a nightly copy of th
 
 1: Using the GitLab container registry nightly backup
 * these instructions are for https://projects.govcms.gov.au/{org}/{project}/container_registry
+* copy the .env.default file to .env on your local
+* remove the # from in front of #MARIADB_DATA_IMAGE=gitlab-registry-production.govcms.amazee.io/{org}/{project}/mariadb-drupal-data
 * add a GitLab Personal Access Token with `read_registry` scope (profile/personal_access_tokens)
 * `docker login gitlab-registry-production.govcms.amazee.io` (and use the PAT created above as the password)
 * `ahoy up` (or the docker-compose equivalent)
