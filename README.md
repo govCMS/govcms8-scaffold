@@ -62,6 +62,8 @@ The instructions are specific to PHPStorm and Chrome.
 * Add this line instead - `XDEBUG_ENABLE: "true"`
 DO NOT COMMIT THIS FILE
 
+### ahoy build
+
 ### Copy docker folder to the host
 * `docker cp govcms8-scaffold_test_1:/app .`
 
