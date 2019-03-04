@@ -7,3 +7,7 @@ COPY tests/behat/features/ /app/tests/behat/features
 
 RUN rm -Rf /app/tests/phpunit/tests/*
 COPY tests/phpunit/tests/ /app/tests/phpunit/tests
+
+COPY custom/ /custom
+WORKDIR "/custom"
+RUN composer install
