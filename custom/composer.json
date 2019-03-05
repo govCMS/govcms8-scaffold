@@ -4,6 +4,10 @@
   "type": "project",
   "license": "GPL-2.0-or-later",
   "repositories": [{
+      "type": "path",
+      "url": "/custom/modulename"
+    },
+    {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
     },
@@ -15,14 +19,11 @@
   "require": {
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "^1.6",
-    "mnsami/composer-custom-directory-installer": "1.1.*",
-    "drupal/dvf": "^1.0",
-    "flow/jsonpath": "0.4.0",
-    "drupal/ckan_connect": "^1.0",
-    "drupal/ds": "3.1"
+    "mnsami/composer-custom-directory-installer": "1.1.*"
   },
   "replace": {
-    "drupal/drupal": "*"
+    "drupal/drupal": "*",
+    "drupal/core": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -35,10 +36,8 @@
     }
   },
   "scripts": {
-    "pre-install-cmd": [
-    ],
-    "pre-update-cmd": [
-    ],
+    "pre-install-cmd": [],
+    "pre-update-cmd": [],
     "post-install-cmd": [],
     "post-update-cmd": [],
     "post-create-project-cmd": []
@@ -46,9 +45,11 @@
   "extra": {
     "installer-types": ["bower-asset", "npm-asset"],
     "installer-paths": {
-      "../app/web/libraries/{$name}/": ["type:drupal-library", "type:bower-asset", "type:npm-asset", "flow/jsonpath"],
+      "../app/web/libraries/{$name}/": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
       "../app/web/modules/custom/{$name}/": ["type:drupal-module"],
       "../app/web/themes/custom/{$name}/": ["type:drupal-theme"]
-    }
+    },
+    "enable-patching": true,
+    "patches": {}
   }
 }
