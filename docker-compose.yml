@@ -42,6 +42,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile.test
+      args:
+        CLI_IMAGE: *lagoon-project
     labels:
       lagoon.type: none
     << : *default-volumes

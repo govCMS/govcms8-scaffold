@@ -1,4 +1,10 @@
+ARG CLI_IMAGE
+FROM ${CLI_IMAGE} as cli
+
 FROM govcms8lagoon/test
+
+COPY --from=cli /app /app
+COPY --from=cli /custom /custom
 
 COPY themes/ /app/web/themes/custom
 
@@ -7,7 +13,3 @@ COPY tests/behat/features/ /app/tests/behat/features
 
 RUN rm -Rf /app/tests/phpunit/tests/*
 COPY tests/phpunit/tests/ /app/tests/phpunit/tests
-
-COPY custom/ /custom
-WORKDIR "/custom"
-RUN composer install
