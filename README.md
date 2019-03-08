@@ -57,7 +57,7 @@ Additional commands are listed in `.ahoy.yml`, or available from the command lin
 Please find below the steps to enable XDEBUG on your local environment. 
 The instructions are specific to PHPStorm and Chrome.
 
-### Edit docker.compose.yml 
+### Edit docker-compose.yml 
 * Remove this line - `DEV_MODE: ${DEV_MODE:-false}`
 * Add this line instead - `XDEBUG_ENABLE: "true"`
 DO NOT COMMIT THIS FILE
