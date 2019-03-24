@@ -1,0 +1,9 @@
+---
+ahoyapi: v2
+usage: Project specific ahoy commands.
+
+# These can be extended with no effect on the govcms platform build.
+commands:
+  example-command:
+    usage: Do something. Run with `ahoy custom example-command` from the repository root.
+    cmd: echo "Hello world"

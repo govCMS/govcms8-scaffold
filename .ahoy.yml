@@ -138,3 +138,8 @@ commands:
         false
       fi
     hide: true
+
+  custom:
+    usage: Additional project-specific commands.
+    imports:
+      - custom/.ahoy.yml
