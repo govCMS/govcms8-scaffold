@@ -2,6 +2,11 @@ FROM govcms8lagoon/test
 
 COPY themes/ /app/web/themes/custom
 
+COPY tests /app/tests
+
+COPY .docker/scripts/lint-theme /usr/bin/
+RUN chmod +x /usr/bin/lint-theme
+
 RUN rm -Rf /app/tests/behat/features/*
 COPY tests/behat/features/ /app/tests/behat/features
 
