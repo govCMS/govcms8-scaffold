@@ -22,6 +22,7 @@ x-environment:
     LAGOON_PROJECT: *lagoon-project
     LAGOON_ROUTE: &default-url ${LOCALDEV_URL:-http://govcms8-saas.docker.amazee.io}
     DEV_MODE: ${DEV_MODE:-false}
+    X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
 
 services:
 
@@ -65,7 +66,6 @@ services:
     environment:
       << : *default-environment
       LAGOON_LOCALDEV_URL: *default-url
-      X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
     networks:
       - amazeeio-network
       - default
@@ -96,21 +96,23 @@ services:
     environment:
       << : *default-environment
 
-  redis:
-    image: govcms8lagoon/redis
-    labels:
-      lagoon.type: redis
-    environment:
-      << : *default-environment
+  # Lodge a support ticket to have Redis enabled.
+  # redis:
+  #   image: govcms8lagoon/redis
+  #   labels:
+  #     lagoon.type: redis
+  #   environment:
+  #     << : *default-environment
 
-  solr:
-    image: govcms8lagoon/solr
-    labels:
-      lagoon.type: solr
-    ports:
-      - "8983" # Find port on host with `docker-compose port solr 8983`
-    environment:
-      << : *default-environment
+  # Lodge a support ticket to have Solr enabled.
+  # solr:
+  #   image: govcms8lagoon/solr
+  #   labels:
+  #     lagoon.type: solr
+  #   ports:
+  #     - "8983" # Find port on host with `docker-compose port solr 8983`
+  #   environment:
+  #     << : *default-environment
 
   chrome:
     image: selenium/standalone-chrome

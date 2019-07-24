@@ -24,20 +24,20 @@ commands:
     cmd: docker-compose up -d --build "$@"; ahoy govcms-deploy
 
   cli:
-    usage: Start a shell inside TEST container.
-    cmd: docker-compose exec test bash
+    usage: Start a shell inside cli container.
+    cmd: docker-compose exec cli bash
 
   run:
-    usage: Run command inside TEST container.
-    cmd: docker-compose exec -T test bash -c "$@"
+    usage: Run command inside cli container.
+    cmd: docker-compose exec -T cli bash -c "$@"
 
   govcms-deploy:
     usage: Runs deployment commands (config import, updb, cr, set up file_stage_proxy)
     cmd: docker-compose exec -T cli govcms-deploy
 
   drush:
-    usage: Run drush commands in TEST container.
-    cmd: docker-compose exec -T test drush "$@"
+    usage: Run drush commands in cli container.
+    cmd: docker-compose exec -T cli drush "$@"
 
   logs:
     usage: Show Docker logs.
@@ -57,47 +57,47 @@ commands:
 
   install:
     usage: Install the profile.
-    cmd: docker-compose exec -T test drush si -y govcms "$@"; ahoy govcms-deploy
+    cmd: docker-compose exec -T cli drush si -y govcms "$@"; ahoy govcms-deploy
 
   login:
     usage: Login to a website.
-    cmd: docker-compose exec -T test drush uli "$@"
+    cmd: docker-compose exec -T cli drush uli "$@"
 
   cex:
     usage: Export site configuration to default location.
-    cmd: docker-compose exec -T test drush cex sync
+    cmd: docker-compose exec -T cli drush cex sync
 
   cim:
     usage: Import site configuration. Will perform partial configuration overrides if a parameter is provided.
     cmd: |
       if [ -f ./config/default/system.site.yml ]; then
         configUuid="$(cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36)"
-        docker-compose exec -T test drush config-set system.site uuid $configUuid
+        docker-compose exec -T cli drush config-set system.site uuid $configUuid
       fi
 
       # No support for config import for entire site install.
-      docker-compose exec -T test drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
-      docker-compose exec -T test drush pm-uninstall shortcut
+      docker-compose exec -T cli drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
+      docker-compose exec -T cli drush pm-uninstall shortcut
 
       if [ "$#" -eq 0 ]
         then
-          docker-compose exec -T test drush cim sync
+          docker-compose exec -T cli drush cim sync
       else
-          docker-compose exec -T test drush cim "$@" --partial
+          docker-compose exec -T cli drush cim "$@" --partial
       fi
 
   mysql-import:
     usage: Pipe in a sql file.  `ahoy mysql-import local.sql`
     cmd: |
       if [ -e "$@" ] ; then
-        docker-compose exec test bash -c 'drush sql-drop' &&
-        docker-compose exec -T test bash -c 'drush sql-cli' < "$@"
+        docker-compose exec cli bash -c 'drush sql-drop' &&
+        docker-compose exec -T cli bash -c 'drush sql-cli' < "$@"
       else echo "Provided sql file" "$@" "does not exist"
       fi
 
   mysql-dump:
     usage: Dump data out into a file. `ahoy mysql-dump local.sql`
-    cmd: docker-compose exec test bash -c 'drush sql-dump --ordered-dump' > "$@"
+    cmd: docker-compose exec cli bash -c 'drush sql-dump --ordered-dump' > "$@"
 
   lint:
     usage: Lint code
