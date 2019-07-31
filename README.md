@@ -13,7 +13,7 @@
         gem install pygmy
         pygmy up
 
-* [Windows](https://docs.amazee.io/local_docker_development/windows.html):    
+* [Windows](https://docs.amazee.io/local_docker_development/windows.html):
 
         git clone https://github.com/amazeeio/amazeeio-docker-windows amazeeio-docker-windows; cd amazeeio-docker-windows
         docker-compose up -d; cd ..
@@ -82,4 +82,14 @@ GovCMS8 has default configuration management built in. It assumes all configurat
 
 
 *Note*: Configuration overrides are snippets of configuration that may be imported over the base configuration. These (optional) files should exist in `config/dev`.
-For example a development project may include a file such as `config/dev/shield.settings.yml` which provides Shield authentication configuration that would only apply to a development environment, not production.
+
+## Shield
+
+ The `settings.php` file has environment variable support to configure basic authentication.
+
+ ### Updating passwords
+
+ - `.lagoon.env`: Will have the default password for all Lagoon environments.
+- `.lagoon.env.master`: Allows a password to be added specifically for the production environment.
+
+ > Note empty values will result in shield being disabled.
