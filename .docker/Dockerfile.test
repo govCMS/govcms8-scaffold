@@ -1,4 +1,5 @@
-FROM govcms8lagoon/test
+ARG GOVCMS_IMAGE_VERSION=latest
+FROM govcms8lagoon/test:${GOVCMS_IMAGE_VERSION}
 
 COPY themes/ /app/web/themes/custom
 
