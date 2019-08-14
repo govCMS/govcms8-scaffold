@@ -62,7 +62,7 @@ The GovCMS projects have been designed to be able to import a nightly copy of th
 2: Use the backups accessible via the UI
 * head to https://dashboard.govcms.gov.au/backups?name={project}-master
 * click "Prepare download" for the most recent mysql backup you want - note that you will have to refresh the page to see when it is complete.
-* download that backup into your project folder.  This backup will be named stdin, but is a valid sql file.
+* download that backup into your project folder.
 * `ahoy mysql-import` to import the dump you just saved
 
 ## Development
