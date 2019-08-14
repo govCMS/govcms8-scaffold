@@ -1,1 +1,4 @@
-include: 'https://projects.govcms.gov.au/govcms/govcms8-scaffold-ci/raw/master/.gitlab-ci-include.yml'
+include:
+  - project: 'govcms/govcms8-scaffold-ci'
+    ref: canary_test
+    file: '.gitlab-ci-include.yml'
