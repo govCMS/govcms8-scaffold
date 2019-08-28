@@ -56,7 +56,7 @@ Windows (powershell):
 
 All:
 
-        docker-compose build
+        docker-compose build --no-cache
 
 2.2 Start docker containers
 
