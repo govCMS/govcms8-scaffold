@@ -29,6 +29,37 @@
 
 2. Build and start the containers:
 
+2.1 Pull new docker images (and remove existing local cached ones - only do this if you are building a new site)
+
+All:
+
+        docker-compose down
+
+Linux/Mac:
+
+        ahoy pull
+
+Windows (cmd):
+
+        docker image ls --format "{{.Repository}}:{{.Tag}}" | findstr "govcms8lagoon/" | for /f %f in ('findstr /V "none"') do docker pull %f 
+
+Windows (git bash):
+
+        alias docker="winpty -Xallow-non-tty docker"
+        alias docker-compose="winpty -Xallow-non-tty docker-compose"
+        docker image ls --format \"{{.Repository}}:{{.Tag}}\" | grep govcms8lagoon/ | grep -v none | awk "{print $1}" | xargs -n1 docker pull | cat
+
+
+Windows (powershell):
+
+        docker image ls --format "{{.Repository}}:{{.Tag}}" | Select-String -Pattern "govcms8lagoon/" | Select-String -Pattern "none" -NotMatch | ForEach-Object -Process {docker pull $_}
+
+All:
+
+        docker-compose build
+
+2.2 Start docker containers
+
         Mac/Linux:  ahoy up
         Windows:    docker-compose up -d
 
