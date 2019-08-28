@@ -45,9 +45,12 @@ Windows (cmd):
 
 Windows (git bash):
 
-        alias docker="winpty -Xallow-non-tty docker"
-        alias docker-compose="winpty -Xallow-non-tty docker-compose"
+        alias docker="winpty -Xallow-non-tty -Xplain docker"
+        alias docker-compose="winpty -Xallow-non-tty -Xplain docker-compose"
         docker image ls --format \"{{.Repository}}:{{.Tag}}\" | grep govcms8lagoon/ | grep -v none | awk "{print $1}" | xargs -n1 docker pull | cat
+        # Chnage alias back (use "unalias docker", if you don't want to use winpty)
+        alias docker="winpty docker"
+        alias docker-composer="winpty docker"
 
 
 Windows (powershell):
