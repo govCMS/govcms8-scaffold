@@ -29,6 +29,14 @@
 
 2. Build and start the containers:
 
+2.1 Pull new docker images (and remove existing local cached ones - only do this if you are building a new site)
+
+        docker-compose down
+        docker-compose pull
+        docker-compose build
+
+2.2 Start docker containers
+
         Mac/Linux:  ahoy up
         Windows:    docker-compose up -d
 
