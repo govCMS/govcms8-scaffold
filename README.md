@@ -71,6 +71,10 @@ The GovCMS projects have been designed to be able to import a nightly copy of th
 * Tests specific to your site can be committed to the `/tests` folders
 * The files folder is not (currently) committed to GitLab.
 * Do not make changes to `docker-compose.yml`, `lagoon.yml`, `.gitlab-ci.yml` or the Dockerfiles under `/.docker` - these will result in your project being unable to deploy to GovCMS SaaS
+* When required, enable Xdebug by running:
+ 
+        Mac/Linux:  ahoy debug
+        Windows:    XDEBUG_ENABLE="true" docker-compose up -d
 
 ## Image inheritance
 
