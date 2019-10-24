@@ -1,4 +1,4 @@
 include:
   - project: 'govcms/govcms8-scaffold-ci'
-    ref: canary_test
+    ref: master
     file: '.gitlab-ci-include.yml'
