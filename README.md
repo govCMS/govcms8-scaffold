@@ -7,9 +7,9 @@ hosting on the GovCMS platform (Lagoon).
 [Github](https://github.com/govCMS/govcms8-scaffold-paas)
 you may prefer to wait for the GovCMS service desk to create your project in Gitlab.
 
-For testing GovCMS off the platfrom, we recommend that you try our PaaS scaffold
+For testing GovCMS separately to the GovCMS platform, we recommend that you try
+our [PaaS scaffold](https://github.com/govCMS/govcms8-scaffold-paas)
 which has a more conventional Drupal 8 structure.
-[PaaS site](https://github.com/govCMS/govcms8-scaffold-paas).
 
 ## Next steps
 
