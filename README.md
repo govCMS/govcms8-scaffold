@@ -4,7 +4,7 @@ This is a composer project which builds a Drupal 8 GovCMS **SaaS** site ready fo
 hosting on the GovCMS platform (Lagoon).
 
 **Note**: If you are a new GovCMS customer visiting this page on
-[Github](https://github.com/govCMS/govcms8-scaffold-paas)
+[Github](https://github.com/govCMS/govcms8-scaffold)
 you may prefer to wait for the GovCMS service desk to create your project in Gitlab.
 
 For testing GovCMS separately to the GovCMS platform, we recommend that you try
