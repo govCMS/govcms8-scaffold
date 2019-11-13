@@ -18,5 +18,5 @@ which has a more conventional Drupal 8 structure.
 
 ## Customising this README
 
-Once your project is set up, you may wish to customise this README to suit your
-project.
+If you have cloned this project from GovCMS Gitlab, you may customise this README
+with specific information about your site.
