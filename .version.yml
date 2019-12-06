@@ -5,4 +5,4 @@
 # e.g. site audits, automated backups.
 version: 8
 type: saas
-scaffold: 1.1.3
+scaffold: 1.2.0
