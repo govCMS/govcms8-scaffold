@@ -28,8 +28,9 @@ if [[ -d ${TARGET_DIR}/themes ]]; then
 fi
 
 # Move files.
-if [[ -d ${TARGET_DIR}/files ]]; then
+if [[ -d ${TARGET_DIR}/files ]] && [[ ! -d ${TARGET_DIR}/web/sites/default/files ]]; then
   mv ${TARGET_DIR}/files ${TARGET_DIR}/web/sites/default/
+  rm -Rf ${TARGET_DIR}/themes
 fi
 
 cd ${TARGET_DIR}
