@@ -3,7 +3,7 @@ IFS=$'\n\t'
 set -euo pipefail
 
 ##
-# This demonstrates the process of AWX applying a scaffold update.
+# This emulates the process of AWX applying a scaffold update.
 #
 
 TMP_DIR=${TMPDIR:-/tmp/}
@@ -22,16 +22,19 @@ git clone --depth 1 ${SCAFFOLD_REPO} -b ${SCAFFOLD_BRANCH} ${SCAFFOLD_DIR}
 rsync -rl --stats --exclude ".git/" --exclude ".env" --exclude ".lagoon.yml" ${SCAFFOLD_DIR}/ ${TARGET_DIR}
 
 # Move themes.
-mv ${TARGET_DIR}/themes/* ${TARGET_DIR}/web/themes/custom/
-rm -Rf themes
+if [[ -d ${TARGET_DIR}/themes ]]; then
+  mv ${TARGET_DIR}/themes/* ${TARGET_DIR}/web/themes/custom/
+  rm -Rf ${TARGET_DIR}/themes
+fi
 
-#
+# Move files.
+if [[ -d ${TARGET_DIR}/files ]]; then
+  mv ${TARGET_DIR}/files ${TARGET_DIR}/web/sites/default/
+fi
+
 cd ${TARGET_DIR}
 git add themes && git add web/themes
-# git commit -m"SaaS Scaffold Update: Moved themes to standard location."
-
-git add custom && git add drush && git add 
-# git commit -m"SaaS Scaffold Update: Moved themes to standard location."
+git commit -m"SaaS Scaffold Update: Moved themes to standard location."
 
 git add .
-# git commit -m"SaaS Scaffold Update: Update scaffold files."
+git commit -m"SaaS Scaffold Update: Update scaffold files."

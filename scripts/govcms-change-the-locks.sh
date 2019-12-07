@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+##
+# This emulates the process of locking/unlocked files in gitlab.
+#
+
 ACTION=${1:-"missing"}
 if [[ ${ACTION} = "missing" ]] ; then
   echo "Pass a lock or unlock"
