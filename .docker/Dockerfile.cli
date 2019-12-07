@@ -13,7 +13,7 @@ ENV WEBROOT=web
 RUN rm -rf /app
 
 COPY composer.json composer.lock /app/
-COPY custom/composer /app/custom/
+COPY custom/composer /app/custom/composer
 COPY scripts /app/scripts
 
 # Run composer. Additional `rm`s can be added to reduce the image size, with diminishing returns.
