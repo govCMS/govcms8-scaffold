@@ -32,28 +32,35 @@ tasks:
         name: New environment, populate database from master
         command: drush status db-status | grep Connected || if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush sql:sync @govcms.prod @self -y; fi
         service: cli
+        shell: bash
     - run:
         name: Database updates
         command: drush -y updatedb
         service: cli
+        shell: bash
     - run:
         name: Config import if enabled
         command: |
           # drush cim -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush cim -y dev --partial; fi
         service: cli
+        shell: bash
     - run:
         name: Cache rebuild
         command: drush -y cr
         service: cli
+        shell: bash
     - run:
         name: Ensure govcms/lagoon modules are enabled
         command: drush en -y govcms_lagoon && drush pmu -y govcms_lagoon
         service: cli
+        shell: bash
     - run:
         name: Enable non-production modules
         command: if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush en stage_file_proxy -y; fi
         service: cli
+        shell: bash
     - run:
         name: Final step is preserve the backup
         command: export BACKUP="/app/web/sites/default/files/private/backups/pre-deploy-dump" && if -f "$BACKUP.sql.gz"; then mv "$BACKUP.sql.gz" "$BACKUP-last-good.sql.gz"; fi
         service: cli
+        shell: bash
