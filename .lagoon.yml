@@ -61,6 +61,6 @@ tasks:
         shell: bash
     - run:
         name: Final step is preserve the backup
-        command: export BACKUP="/app/web/sites/default/files/private/backups/pre-deploy-dump" && if [[ -f "$BACKUP.sql.gz" ]]; then mv "$BACKUP.sql.gz" "$BACKUP-last-good.sql.gz"; fi
+        command: export BACKUP="/app/web/sites/default/files/private/backups/pre-deploy-dump" && mv "$BACKUP.sql.gz" "$BACKUP-last-good.sql.gz" || true
         service: cli
         shell: bash
