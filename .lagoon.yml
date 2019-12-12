@@ -23,14 +23,14 @@ tasks:
         shell: bash
     - run:
         name: Snapshot the config and store
-        command: drush cex --root=/app sync -y --destination "$TMP"/config && tar -czf /app/web/sites/default/files/private/backups/pre-deploy-config.tar.gz "$TMP"/config --remove-files
+        command: if [[ $(drush status bootstrap | grep -q Successful; echo "$?") = 0 ]]; then drush cex --root=/app sync -y --destination "$TMP"/config && tar -czf /app/web/sites/default/files/private/backups/pre-deploy-config.tar.gz "$TMP"/config --remove-files; fi
         service: cli
         shell: bash
 
   post-rollout:
     - run:
         name: New environment, populate database from master
-        command: drush status db-status | grep Connected || if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush sql:sync @govcms.prod @self -y; fi
+        command: drush status db-status | grep Connected || if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush sql:sync @ci.prod @self -y; fi
         service: cli
         shell: bash
     - run:
