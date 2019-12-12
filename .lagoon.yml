@@ -11,7 +11,7 @@ environments:
         service: cli
 
 # Note regarding tasks in the scaffold.
-# Please try to fit commands
+# Please avoid making scripts more than one or two lines, and avoid if/else logic.
 # When PaaS users or the support team modify this file, it should be easy to turn things on and off.
 
 tasks:
