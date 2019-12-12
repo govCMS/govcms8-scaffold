@@ -39,7 +39,7 @@ tasks:
     - run:
         name: Config import if enabled
         command: |
-          # drush config:import -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush config:import -y dev --partial; fi
+          # drush cim -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush cim -y dev --partial; fi
         service: cli
     - run:
         name: Cache rebuild
