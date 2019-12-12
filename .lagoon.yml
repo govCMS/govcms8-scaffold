@@ -17,45 +17,29 @@ environments:
 tasks:
   pre-rollout:
     - run:
-        name: Snapshot the database and config
-        command: |
-          # @todo This is too complex, ideally move to https://github.com/govCMS/scaffold-tooling/tree/develop/scripts
-          # @see https://github.com/govCMS/govcms8lagoon/pull/111
-          cd /app
-
-          DUMP_NAME="pre-deploy-dump.sql"  # Do not change, referred to in post-rollout.
-          BACKUP_DIR="/app/web/sites/default/files/private/backups"
-          mkdir -p "$BACKUP_DIR"/config
-
-          # Database
-          if [[ "$LAGOON_ENVIRONMENT_TYPE" = "production" ]]; then
-              drush sql:dump --gzip --result-file="$BACKUP_DIR"/"$DUMP_NAME"
-          fi
-
-          # Config
-          drush config:export sync -y --destination "$BACKUP_DIR"/config
-          tar -czf "$BACKUP_DIR"/config.tar.gz "$BACKUP_DIR"/config
+        name: Snapshot the database and store
+        command: if [[ "$LAGOON_ENVIRONMENT_TYPE" = "production" ]]; then drush sql:dump --root=/app --gzip --result-file=/app/web/sites/default/files/private/backups/pre-deploy-dump.sql; fi
+        service: cli
+        shell: bash
+    - run:
+        name: Snapshot the config and store
+        command: drush cex --root=/app sync -y --destination "$TMP"/config && tar -czf /app/web/sites/default/files/private/backups/pre-deploy-config.tar.gz "$TMP"/config --remove-files
         service: cli
         shell: bash
 
   post-rollout:
     - run:
-        name: Sync from master for new environments
-        command: |
-          # This if statement checks "is drupal installed and it's not production".
-          if tables=$(drush sqlq 'show tables;') && [ -z "$tables" ] && [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush sql:sync @govcms.prod @self -y; fi
+        name: New environment, populate database from master
+        command: drush status db-status | grep Connected || if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush sql:sync @govcms.prod @self -y; fi
         service: cli
     - run:
         name: Database updates
         command: drush -y updatedb
         service: cli
     - run:
-        name: Config import
+        name: Config import if enabled
         command: |
-          # Uncomment below to enable.
-          # @todo allow this to be controlled from .env or something the client can control.
-          # drush config:import -y sync
-          # if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush config:import -y dev --partial; fi
+          # drush config:import -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush config:import -y dev --partial; fi
         service: cli
     - run:
         name: Cache rebuild
@@ -70,9 +54,6 @@ tasks:
         command: if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush en stage_file_proxy -y; fi
         service: cli
     - run:
-        name: Preserve the backup from this successful post-rollout
-        command: |
-          BACKUP="/app/web/sites/default/files/private/backups/pre-deploy-dump.sql.gz"
-          if -f "$BACKUP"; then mv "$BACKUP" "$BACKUP.last-good.gz"; fi
+        name: Final step is preserve the backup
+        command: export BACKUP="/app/web/sites/default/files/private/backups/pre-deploy-dump" && if -f "$BACKUP.sql.gz"; then mv "$BACKUP.sql.gz" "$BACKUP-last-good.sql.gz"; fi
         service: cli
-
