@@ -1,15 +1,13 @@
 ##
 # Wildcard alias for feature branches.
-# If your branch is feature/foobar, you can run `drush @feature.foobar st`.
-#
-# See WIKI LINK TBA
+# If you have drush access, and your branch is feature/foobar, you can run `ahoy drush @feature.foobar status`.
 #
 
 '*':
   root: /app
   host: ssh-lagoon.govcms.amazee.io
-  user: LAGOON_PROJECT-feature-${env-name}
-  uri: LAGOON_PROJECT-feature-${env-name}.govcms.amazee.io
+  user: ${env.COMPOSE_PROJECT_NAME}-feature-${env-name}
+  uri: nginx-${env.COMPOSE_PROJECT_NAME}-feature-${env-name}.govcms.amazee.io
   ssh:
     options: -p 30831
     tty: false
