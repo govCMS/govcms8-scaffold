@@ -23,7 +23,7 @@ tasks:
         shell: bash
     - run:
         name: Snapshot the config and store
-        command: if [[ $(drush cex --root=/app sync -y --destination "$TMP"/config; echo "$?") = 0 ]]; then tar -czf /app/web/sites/default/files/private/backups/pre-deploy-config.tar.gz "$TMP"/config --remove-files; fi
+        command: if [[ $(drush cex --root=/app sync -y --quiet --destination "$TMP"/config; echo "$?") = 0 ]]; then tar -czf /app/web/sites/default/files/private/backups/pre-deploy-config.tar.gz "$TMP"/config --remove-files; fi
         service: cli
         shell: bash
 
