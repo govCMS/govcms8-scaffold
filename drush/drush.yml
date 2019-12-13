@@ -1,1 +1,29 @@
-# Drush settings.
+# Drush settings, not currently customisable on Gitlab because it can effect CI.
+# If you want to improve this file, please create a pull request on https://github.com/govCMS/govcms8-scaffold
+
+sql:
+  structure-tables:
+    # Data to exclude from default sync/dump.
+    common:
+      - cache
+      - 'cache_*'
+      - history
+      - 'search_*'
+      - 'session'
+      - watchdog
+      - 'webform_*'
+  skip-tables:
+    # Whole tables to exclude from default sync/dump.
+    common:
+      - 'migration_*'
+      - 'migrate_*'
+command:
+  sql:
+    dump:
+      options:
+        structure-tables-key: common
+        skip-tables-key: common
+    sync:
+      options:
+        structure-tables-key: common
+        skip-tables-key: common
