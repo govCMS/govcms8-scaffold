@@ -56,7 +56,7 @@ tasks:
     - run:
         name: Perform config import (uncomment to enable)
         command: |
-          # drush cim -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush cim -y dev --partial; fi
+          # drush cim -y sync && if [[ "$LAGOON_ENVIRONMENT_TYPE" != "production" ]]; then drush cim -y --partial --source=../config/dev; fi
         service: cli
         shell: bash
     - run:
