@@ -21,7 +21,7 @@ commands:
 
   build:
     usage: Build project.
-    cmd: docker-compose up -d --build "$@"; ahoy govcms-deploy
+    cmd: docker-compose up -d --build "$@"; ahoy govcms-deploy && ahoy info
 
   cli:
     usage: Start a shell inside cli container.
@@ -127,6 +127,16 @@ commands:
   audit-site:
     usage: Run site audit
     cmd: docker-compose exec -T test drutiny profile:run ci @self "$@"
+
+  info:
+    usage: Print information about this project.
+    cmd: |
+      echo "Project                  : " $(ahoy run "echo \$LAGOON_PROJECT")
+      echo "Site local URL           : " $(ahoy run "echo \$LOCALDEV_URL")
+      echo "DB port on host          : " $(docker port $(docker-compose ps -q mariadb) 3306 | cut -d : -f 2)
+      if [ "$1" ]; then
+        echo "One-time login           : " $(ahoy login -- --no-browser)
+      fi
 
   confirm:
     cmd: |
