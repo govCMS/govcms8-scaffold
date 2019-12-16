@@ -21,7 +21,7 @@ commands:
 
   build:
     usage: Build project.
-    cmd: docker-compose up -d --build "$@"; ahoy govcms-deploy
+    cmd: docker-compose up -d --build "$@" && ahoy govcms-deploy && ahoy info
 
   cli:
     usage: Start a shell inside cli container.
@@ -29,7 +29,7 @@ commands:
 
   run:
     usage: Run command inside cli container.
-    cmd: docker-compose exec -T cli bash -c "$@"
+    cmd: docker-compose exec -T cli bash -c "$*"
 
   govcms-deploy:
     usage: Runs deployment commands (config import, updb, cr, set up file_stage_proxy)
@@ -120,7 +120,7 @@ commands:
     cmd: |
       ahoy confirm "Running this command will replace your current database. Are you sure?" &&
       # Run this if confirm returns true
-      cat .env | grep MARIADB_DATA_IMAGE | cut -c20- | xargs -n1 docker pull && ahoy up ||
+      cat .env | grep MARIADB_DATA_IMAGE | cut -c20- | xargs -n1 docker pull && docker-compose rm -f -s -v mariadb && ahoy up ||
       # Run this if confirm returns false
       echo "OK, probably a wise choice..."
 
@@ -133,6 +133,16 @@ commands:
     cmd: |
       { ahoy run "php -v|grep -q Xdebug" && echo "Debug is already enabled"; } \
       || { export XDEBUG_ENABLE="true" && ahoy up cli test php && ahoy run "php -v|grep -q Xdebug" && echo "Enabled debug configuration. Use 'ahoy up' to disable."; }
+
+  info:
+    usage: Print information about this project.
+    cmd: |
+      echo "Project                  : " $(ahoy run "echo \$LAGOON_PROJECT")
+      echo "Site local URL           : " $(ahoy run "echo \$LOCALDEV_URL")
+      echo "DB port on host          : " $(docker port $(docker-compose ps -q mariadb) 3306 | cut -d : -f 2)
+      if [ "$1" ]; then
+        echo "One-time login           : " $(ahoy login -- --no-browser)
+      fi
 
   confirm:
     cmd: |
