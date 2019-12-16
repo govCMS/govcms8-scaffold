@@ -14,7 +14,7 @@ commands:
       else
         ahoy confirm "Running this command will destroy your current site, database and build? Are you sure you didn't mean ahoy stop?" &&
         # Run this if confirm returns true
-        docker-compose down --volumes ||
+        docker-compose down  --volumes ||
         # Run this if confirm returns false
         echo "OK, probably a wise choice..."
       fi
@@ -32,7 +32,7 @@ commands:
     cmd: docker-compose exec -T cli bash -c "$@"
 
   govcms-deploy:
-    usage: Runs deployment commands (config import, updb, cr, set up file_stage_proxy)
+    usage: Runs deployment commands (e.g. config import, updb, cr, set up file_stage_proxy)
     cmd: docker-compose exec -T cli govcms-deploy
 
   drush:
@@ -57,34 +57,11 @@ commands:
 
   install:
     usage: Install the profile.
-    cmd: docker-compose exec -T cli drush si -y govcms "$@"; ahoy govcms-deploy
+    cmd: docker-compose exec -T cli drush si -y "$@"; ahoy govcms-deploy
 
   login:
     usage: Login to a website.
     cmd: docker-compose exec -T cli drush uli "$@"
-
-  cex:
-    usage: Export site configuration to default location.
-    cmd: docker-compose exec -T cli drush cex sync
-
-  cim:
-    usage: Import site configuration. Will perform partial configuration overrides if a parameter is provided.
-    cmd: |
-      if [ -f ./config/default/system.site.yml ]; then
-        configUuid="$(cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36)"
-        docker-compose exec -T cli drush config-set system.site uuid $configUuid
-      fi
-
-      # No support for config import for entire site install.
-      docker-compose exec -T cli drush ev '\Drupal::entityManager()->getStorage("shortcut_set")->load("default")->delete();'
-      docker-compose exec -T cli drush pm-uninstall shortcut
-
-      if [ "$#" -eq 0 ]
-        then
-          docker-compose exec -T cli drush cim sync
-      else
-          docker-compose exec -T cli drush cim "$@" --partial
-      fi
 
   mysql-import:
     usage: Pipe in a sql file.  `ahoy mysql-import local.sql`
@@ -101,15 +78,22 @@ commands:
 
   lint:
     usage: Lint code
-    cmd: docker-compose exec -T test lint-theme
+    cmd: docker-compose exec -T test ./vendor/bin/govcms-lint web/themes/custom
+
+  tests:
+    usage: Run all tests.
+    cmd: |
+      ahoy test-behat
+      ahoy test-phpunit
+      ahoy lint
 
   test-behat:
     usage: Run Behat tests.
-    cmd: docker-compose exec -T test behat "$@"
+    cmd: docker-compose exec -T test ./vendor/bin/govcms-behat "$@"
 
   test-phpunit:
-    usage: Run PHPUnit tests.
-    cmd: docker-compose exec -T test phpunit "$@"
+    usage: Run phpunit tests
+    cmd: docker-compose exec -T test ./vendor/bin/govcms-phpunit --testsuite govcms
 
   pull:
     usage: Pull latest docker images.
@@ -126,7 +110,7 @@ commands:
 
   audit-site:
     usage: Run site audit
-    cmd: docker-compose exec -T test drutiny profile:run ci @self "$@"
+    cmd: docker-compose exec -T test ./vendor/bin/govcms-audit
 
   confirm:
     cmd: |
@@ -138,3 +122,8 @@ commands:
         false
       fi
     hide: true
+
+  my:
+    usage: Custom commands for this project. See `ahoy my help`.
+    imports:
+      - 'custom/ahoy.yml'

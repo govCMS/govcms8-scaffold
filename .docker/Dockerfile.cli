@@ -1,9 +1,34 @@
+##
+# @see  https://govcms.gov.au/wiki-advanced#docker
+#
+
+ARG CLI_IMAGE
 ARG GOVCMS_IMAGE_VERSION=latest
+
 FROM govcms8lagoon/govcms8:${GOVCMS_IMAGE_VERSION}
 
-COPY themes/ /app/web/themes/custom
-COPY config /app/config
+ENV WEBROOT=web
 
-# Default application favicon this will be used for files and server
-# error pages all other favicon requests will be surfaced via Drupal.
-COPY favicon.ico /app/web
+# @todo Can be removed when we can trust files from govcms/govcms8lagoon images.
+RUN rm -rf /app
+
+COPY composer.json composer.lock /app/
+COPY custom/composer /app/custom/composer
+COPY scripts /app/scripts
+
+# Run composer. Additional `rm`s can be added to reduce the image size, with diminishing returns.
+RUN composer install --no-dev --no-interaction --no-suggest \
+  && rm -rf ~/.composer/cache \
+  && rm -rf /app/web/core/tests \
+  && rm -rf /app/web/modules/contrib/webform/tests
+
+# Place remaining files from repository, note exclusions in .dockerignore.
+COPY . /app
+
+# @todo Move this alias file to govcms/govcms8lagoon.
+COPY .docker/config/cli/govcms.site.yml /app/drush/sites/
+
+# Set up platform modules from scaffold. This only needs to happen in lagoon and locally you won't see the effect due to mounting of /app.
+RUN rm -Rf /app/web/sites/all \
+  && mkdir -p /app/web/sites/all \
+  && cp -Rf /app/vendor/govcms/scaffold-tooling/drupal/modules /app/web/sites/all/

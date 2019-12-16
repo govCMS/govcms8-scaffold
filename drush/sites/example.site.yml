@@ -1,0 +1,10 @@
+# Rename or copy this file and access custom aliases as @FILENAME.foobar
+
+#foobar:
+#  root: /app
+#  host: ssh-lagoon.govcms.amazee.io
+#  user: MYPROJECT-master
+#  uri: nginx-MYPROJECT-MYBRANCH.govcms.amazee.io
+#  ssh:
+#    options: -p 30831
+#    tty: false

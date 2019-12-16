@@ -1,32 +1,33 @@
 version: '2.3'
 
+# This value intentionally matches the project name on Lagoon.
+# It is used to name the CLI_IMAGE to use as a build arg locally.
 x-lagoon-project:
-  &lagoon-project govcms8-saas
+  &lagoon-project govcms8-paas
 
 x-lagoon-local-dev-url:
-  &lagoon-local-dev-url http://govcms8-saas.docker.amazee.io
+  &lagoon-local-dev-url http://govcms8-paas.docker.amazee.io
 
+# See GOVCMS_IMAGE_VERSION in "Variables" at https://github.com/govCMS/govCMS8/wiki
 x-govcms-image-version:
   &govcms-image-version ${GOVCMS_IMAGE_VERSION:-latest}
 
 x-volumes:
   &default-volumes
     volumes:
-      - ./themes:/app/web/themes/custom:${VOLUME_FLAGS:-delegated}
-      - ./files:/app/web/sites/default/files:delegated
-      - ./tests/behat/features:/app/tests/behat/features:${VOLUME_FLAGS:-delegated}
-      - ./tests/phpunit/tests:/app/tests/phpunit/tests:${VOLUME_FLAGS:-delegated}
-      - ./config:/app/config
+      - .:/app:delegated
 
 x-environment:
   &default-environment
     STAGE_FILE_PROXY_URL: ${STAGE_FILE_PROXY_URL:-}
     LAGOON_ENVIRONMENT_TYPE: ${LAGOON_ENVIRONMENT_TYPE:-}
     LAGOON_PROJECT: *lagoon-project
-    LAGOON_ROUTE: &default-url ${LOCALDEV_URL:-http://govcms8-saas.docker.amazee.io}
+    LAGOON_ROUTE: &default-url ${LOCALDEV_URL:-http://govcms8-paas.docker.amazee.io}
     GOVCMS_IMAGE_VERSION: ${GOVCMS_IMAGE_VERSION:-latest}
     DEV_MODE: ${DEV_MODE:-false}
     X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
+    DRUPAL_SHIELD_USER: ${DRUPAL_SHIELD_USER:-}
+    DRUPAL_SHIELD_PASS: ${DRUPAL_SHIELD_PASS:-}
 
 services:
 
@@ -35,6 +36,7 @@ services:
       context: .
       dockerfile: .docker/Dockerfile.cli
       args:
+        LAGOON_SAFE_PROJECT: *lagoon-project
         GOVCMS_IMAGE_VERSION: *govcms-image-version
     image: *lagoon-project
     labels:
@@ -50,7 +52,9 @@ services:
       context: .
       dockerfile: .docker/Dockerfile.test
       args:
+        CLI_IMAGE: *lagoon-project
         GOVCMS_IMAGE_VERSION: *govcms-image-version
+        SITE_AUDIT_VERSION: ${SITE_AUDIT_VERSION:-7.x-3.x}
     labels:
       lagoon.type: none
     << : *default-volumes
@@ -106,7 +110,7 @@ services:
     environment:
       << : *default-environment
 
-  # Lodge a support ticket to have Redis enabled.
+  # Uncomment to enable redis.
   # redis:
   #   image: govcms8lagoon/redis
   #   labels:
@@ -114,13 +118,19 @@ services:
   #   environment:
   #     << : *default-environment
 
-  # Lodge a support ticket to have Solr enabled.
+  # Uncomment to enable solr.
   # solr:
-  #   image: govcms8lagoon/solr
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/Dockerfile.solr
+  #     args:
+  #       GOVCMS_IMAGE_VERSION: *govcms-image-version
   #   labels:
   #     lagoon.type: solr
   #   ports:
   #     - "8983" # Find port on host with `docker-compose port solr 8983`
+  #   depends_on:
+  #     - cli
   #   environment:
   #     << : *default-environment
 
