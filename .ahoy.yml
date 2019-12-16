@@ -21,7 +21,7 @@ commands:
 
   build:
     usage: Build project.
-    cmd: docker-compose up -d --build "$@"; ahoy govcms-deploy && ahoy info
+    cmd: docker-compose up -d --build "$@" && ahoy govcms-deploy && ahoy info
 
   cli:
     usage: Start a shell inside cli container.
