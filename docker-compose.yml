@@ -27,6 +27,9 @@ x-environment:
     GOVCMS_IMAGE_VERSION: ${GOVCMS_IMAGE_VERSION:-latest}
     DEV_MODE: ${DEV_MODE:-false}
     X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
+    # Allow to override docker host used from the inside of the containers.
+    DOCKERHOST: ${DOCKERHOST:-}
+    XDEBUG_ENABLE: ${XDEBUG_ENABLE:-}
 
 services:
 
