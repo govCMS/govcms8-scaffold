@@ -128,6 +128,12 @@ commands:
     usage: Run site audit
     cmd: docker-compose exec -T test drutiny profile:run ci @self "$@"
 
+  debug:
+    usage: Enable debug configuration.
+    cmd: |
+      { ahoy run "php -v|grep -q Xdebug" && echo "Debug is already enabled"; } \
+      || { export XDEBUG_ENABLE="true" && ahoy up cli test php && ahoy run "php -v|grep -q Xdebug" && echo "Enabled debug configuration. Use 'ahoy up' to disable."; }
+
   info:
     usage: Print information about this project.
     cmd: |
