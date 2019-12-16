@@ -1,1 +1,2 @@
-These aliases are not used on Lagoon and can be customised.
+Aliases in this folder can be customised. These aliases are not used on
+Lagoon by the deployment process.

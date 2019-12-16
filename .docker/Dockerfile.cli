@@ -25,11 +25,10 @@ RUN composer install --no-dev --no-interaction --no-suggest \
 # Place remaining files from repository, note exclusions in .dockerignore.
 COPY . /app
 
-# Ensure the CI aliases are in place.
+# @todo Move this alias file to govcms/govcms8lagoon.
 COPY .docker/config/cli/govcms.site.yml /app/drush/sites/
 
-# Ensure drush-launcher instead of Drush 8 in /home/.composer
-# @todo Make drush launcher available upstream, @see https://github.com/amazeeio/lagoon/pull/1183
-RUN wget -O /usr/local/bin/drush "https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar" \
-  && chmod +x /usr/local/bin/drush \
-  && rm -Rf /home/.composer/vendor/bin
+# Set up platform modules from scaffold. This only needs to happen in lagoon and locally you won't see the effect due to mounting of /app.
+RUN rm -Rf /app/web/sites/all \
+  && mkdir -p /app/web/sites/all \
+  && cp -Rf /app/vendor/govcms/scaffold-tooling/drupal/modules /app/web/sites/all/
