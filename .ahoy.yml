@@ -29,7 +29,7 @@ commands:
 
   run:
     usage: Run command inside cli container.
-    cmd: docker-compose exec -T cli bash -c "$@"
+    cmd: docker-compose exec -T cli bash -c "$*"
 
   govcms-deploy:
     usage: Runs deployment commands (config import, updb, cr, set up file_stage_proxy)
