@@ -15,6 +15,7 @@ environments:
 # When PaaS users or the support team modify this file, it should be easy to turn things on and off.
 
 tasks:
+  # Pre-rollout tasks do not get called on first deploy; use post-rollout tasks instead.
   pre-rollout:
     - run:
         name: Ensure backup folder exists - not all current envs have one
@@ -39,8 +40,8 @@ tasks:
         service: cli
         shell: bash
     - run:
-        name: Ensure backup folder exists
-        command: mkdir -p /app/web/sites/default/files/private/backups
+        name: Ensure backups and tmp folders exist
+        command: mkdir -p /app/web/sites/default/files/private/{backups,tmp}
         service: cli
         shell: bash
     - run:
