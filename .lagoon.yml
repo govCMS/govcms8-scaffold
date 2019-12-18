@@ -15,6 +15,7 @@ environments:
 # When PaaS users or the support team modify this file, it should be easy to turn things on and off.
 
 tasks:
+  # Pre-rollout tasks do not get called on first deploy; use post-rollout tasks instead.
   pre-rollout:
     - run:
         name: Ensure backup folder exists - not all current envs have one
