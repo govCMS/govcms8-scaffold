@@ -17,8 +17,8 @@ environments:
 tasks:
   pre-rollout:
     - run:
-        name: Ensure backups and tmp folders exist - not all current envs have them
-        command: mkdir -p /app/web/sites/default/files/private/{backups,tmp}
+        name: Ensure backup folder exists - not all current envs have one
+        command: mkdir -p /app/web/sites/default/files/private/backups
         service: cli
         shell: bash    
     - run:
@@ -39,8 +39,8 @@ tasks:
         service: cli
         shell: bash
     - run:
-        name: Ensure backup folder exists
-        command: mkdir -p /app/web/sites/default/files/private/backups
+        name: Ensure backups and tmp folders exist
+        command: mkdir -p /app/web/sites/default/files/private/{backups,tmp}
         service: cli
         shell: bash
     - run:
