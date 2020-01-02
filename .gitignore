@@ -1,1 +1,3 @@
 /files
+tests/behat/screenshots/*
+!tests/behat/screenshots/.gitkeep
