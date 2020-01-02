@@ -1,0 +1,5 @@
+# This folder is required by the Gitlab CI process. This ensures
+# that the directory will always be avialable and when testing
+# locally we do not commit any outputs.
+*
+!.gitignore
