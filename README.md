@@ -13,8 +13,8 @@ which has a more conventional Drupal 8 structure.
 
 ## Next steps
 
- * [Drupal/GovCMS distribution](https://govcms.gov.au/wiki_distro)
- * [GovCMS Platform](https://govcms.gov.au/wiki_platform)
+ * [Drupal/GovCMS distribution](https://govcms.gov.au/wiki-distro)
+ * [GovCMS Platform](https://govcms.gov.au/wiki-platform)
 
 ## Customising this README
 
