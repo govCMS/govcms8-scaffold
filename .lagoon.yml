@@ -19,54 +19,54 @@ tasks:
   pre-rollout:
     - run:
         name: Pre-rollout database updates
-        command: /app/vendor/bin/pre-deploy-update-database
+        command: /app/vendor/bin/govcms-pre-deploy-update-database
         service: cli
         shell: bash
     - run:
         name: Snapshot the database and store
-        command: /app/vendor/bin/backup-db
+        command: /app/vendor/bin/govcms-backup-db
         service: cli
         shell: bash
     - run:
         name: Snapshot the config and store
-        command: /app/vendor/bin/backup-config
+        command: /app/vendor/bin/govcms-backup-config
         service: cli
         shell: bash
 
   post-rollout:
     - run:
         name: Prepare the site for deployment
-        command: /app/vendor/bin/prepare
+        command: /app/vendor/bin/govcms-prepare
         service: cli
         shell: bash
     - run:
         name: Synchronise the database
-        command: /app/vendor/bin/db-sync
+        command: /app/vendor/bin/govcms-db-sync
         service: cli
         shell: bash
     - run:
         name: Perform database updates
-        command: /app/vendor/bin/update-database
+        command: /app/vendor/bin/govcms-update-database
         service: cli
         shell: bash
     - run:
         name: Perform config import
-        command: /app/vendor/bin/config-import
+        command: /app/vendor/bin/govcms-config-import
         service: cli
         shell: bash
     - run:
         name: Perform cache rebuild
-        command: /app/vendor/bin/cache-rebuild
+        command: /app/vendor/bin/govcms-cache-rebuild
         service: cli
         shell: bash
     - run:
         name: Ensure GovCMS/Lagoon modules are enabled
-        command: /app/vendor/bin/enable-modules
+        command: /app/vendor/bin/govcms-enable-modules
         service: cli
         shell: bash
     - run:
         name: Preserve the last successful backup
-        command: /app/vendor/bin/preserve-backups
+        command: /app/vendor/bin/govcms-preserve-backups
         service: cli
         shell: bash
 
