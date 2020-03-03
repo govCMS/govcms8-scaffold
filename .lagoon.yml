@@ -16,20 +16,22 @@ environments:
 
 tasks:
   # Pre-rollout tasks do not get called on first deploy; use post-rollout tasks instead.
+  # Pre-rollout tasks need to have file existance checks as these are run in the active
+  # containers and it is not guaranteed that the commands will be available there.
   pre-rollout:
     - run:
         name: Pre-rollout database updates
-        command: /app/vendor/bin/govcms-pre-deploy-db-update
+        command: "[ -f /app/vendor/bin/govcms-pre-deploy-db-update ] && /app/vendor/bin/govcms-pre-deploy-db-update || echo '[govcms-pre-deploy-db-update] is not available.'"
         service: cli
         shell: bash
     - run:
         name: Snapshot the database and store
-        command: /app/vendor/bin/govcms-db-backup
+        command: "if [ -f /app/vendor/bin/govcms-db-backup ] && /app/vendor/bin/govcms-db-backup || echo '[govcms-db-backup] is not available.'"
         service: cli
         shell: bash
     - run:
         name: Snapshot the config and store
-        command: /app/vendor/bin/govcms-config-backup
+        command: "if [ -f /app/vendor/bin/govcms-config-backup ] && /app/vendor/bin/govcms-config-backup || echo '[govcms-config-backup] is not availble.'"
         service: cli
         shell: bash
 
