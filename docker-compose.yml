@@ -110,18 +110,18 @@ services:
       << : *default-environment
 
   # Lodge a support ticket to have Solr search enabled.
-  # solr:
-  #   build:
-  #     context: .
-  #     dockerfile: .docker/Dockerfile.solr
-  #     args:
-  #       GOVCMS_IMAGE_VERSION: *govcms-image-version
-  #   labels:
-  #     lagoon.type: solr
-  #   ports:
-  #     - "8983" # Find port on host with `docker-compose port solr 8983`
-  #   environment:
-  #     << : *default-environment
+  solr:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.solr
+      args:
+        GOVCMS_IMAGE_VERSION: *govcms-image-version
+    labels:
+      lagoon.type: solr
+    ports:
+      - "8983" # Find port on host with `docker-compose port solr 8983`
+    environment:
+      << : *default-environment
 
   chrome:
     image: selenium/standalone-chrome
