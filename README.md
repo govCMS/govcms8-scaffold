@@ -15,6 +15,9 @@ which has a more conventional Drupal 8 structure.
 
  * [Drupal/GovCMS distribution](https://govcms.gov.au/wiki-distro)
  * [GovCMS Platform](https://govcms.gov.au/wiki-platform)
+ * [GovCMS Maintenance](https://govcms.gov.au/wiki-maintenance)
+ * [GovCMS release process](https://github.com/govCMS/govcms8-scaffold-paas/wiki/Update-process)
+
 
 ## Customising this README
 
