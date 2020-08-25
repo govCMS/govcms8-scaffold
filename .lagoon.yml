@@ -44,6 +44,11 @@ tasks:
         service: cli
         shell: bash
     - run:
+        name: Prevent elevated permissions
+        command: /app/vendor/bin/govcms-validate-permissions
+        service: cli
+        shell: bash
+    - run:
         name: Synchronise the database
         command: /app/vendor/bin/govcms-db-sync
         service: cli
