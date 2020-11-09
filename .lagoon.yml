@@ -5,9 +5,9 @@ environments:
     types:
       mariadb: mariadb-shared
     cronjobs:
-      - name: drush cron
+      - name: Drupal cron with notifications
         schedule: "0 * * * *"
-        command: 'drush cron --root=/app'
+        command: '/app/vendor/bin/govcms-drush cron --root=/app'
         service: cli
 
 # Note regarding tasks in the scaffold.
