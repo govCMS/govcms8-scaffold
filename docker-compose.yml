@@ -15,6 +15,7 @@ x-volumes:
       - ./themes:/app/web/themes/custom:${VOLUME_FLAGS:-delegated}
       - ./files:/app/web/sites/default/files:delegated
       - ./tests/behat/features:/app/tests/behat/features:${VOLUME_FLAGS:-delegated}
+      - ./tests/behat/screenshots:/app/tests/behat/screenshots:${VOLUME_FLAGS:-delegated}
       - ./tests/phpunit/tests:/app/tests/phpunit/tests:${VOLUME_FLAGS:-delegated}
       - ./config:/app/config
 
@@ -30,6 +31,7 @@ x-environment:
     # Allow to override docker host used from the inside of the containers.
     DOCKERHOST: ${DOCKERHOST:-}
     XDEBUG_ENABLE: ${XDEBUG_ENABLE:-}
+    GOVCMS_DEPLOY_WORKFLOW_CONFIG: ${GOVCMS_DEPLOY_WORKFLOW_CONFIG:-import}
 
 services:
 
