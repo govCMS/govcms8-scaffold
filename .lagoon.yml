@@ -52,6 +52,11 @@ tasks:
         service: cli
         shell: bash
     - run:
+        name: Validate illegal files
+        command: /app/vendor/bin/govcms-illegal-files || true
+        service: cli
+        shell: bash
+    - run:
         name: Synchronise the database
         command: /app/vendor/bin/govcms-db-sync
         service: cli
