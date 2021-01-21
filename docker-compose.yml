@@ -1,37 +1,32 @@
 version: '2.3'
 
-x-lagoon-project:
-  &lagoon-project govcms8-saas
+x-lagoon-project: &lagoon-project govcms8-saas
 
-x-lagoon-local-dev-url:
-  &lagoon-local-dev-url http://govcms8-saas.docker.amazee.io
+x-lagoon-local-dev-url: &lagoon-local-dev-url http://govcms8-saas.docker.amazee.io
 
-x-govcms-image-version:
-  &govcms-image-version ${GOVCMS_IMAGE_VERSION:-latest}
+x-govcms-image-version: &govcms-image-version ${GOVCMS_IMAGE_VERSION:-latest}
 
-x-volumes:
-  &default-volumes
-    volumes:
-      - ./themes:/app/web/themes/custom:${VOLUME_FLAGS:-delegated}
-      - ./files:/app/web/sites/default/files:delegated
-      - ./tests/behat/features:/app/tests/behat/features:${VOLUME_FLAGS:-delegated}
-      - ./tests/behat/screenshots:/app/tests/behat/screenshots:${VOLUME_FLAGS:-delegated}
-      - ./tests/phpunit/tests:/app/tests/phpunit/tests:${VOLUME_FLAGS:-delegated}
-      - ./config:/app/config
+x-volumes: &default-volumes
+  volumes:
+    - ./themes:/app/web/themes/custom:${VOLUME_FLAGS:-delegated}
+    - ./files:/app/web/sites/default/files:delegated
+    - ./tests/behat/features:/app/tests/behat/features:${VOLUME_FLAGS:-delegated}
+    - ./tests/behat/screenshots:/app/tests/behat/screenshots:${VOLUME_FLAGS:-delegated}
+    - ./tests/phpunit/tests:/app/tests/phpunit/tests:${VOLUME_FLAGS:-delegated}
+    - ./config:/app/config
 
-x-environment:
-  &default-environment
-    STAGE_FILE_PROXY_URL: ${STAGE_FILE_PROXY_URL:-}
-    LAGOON_ENVIRONMENT_TYPE: ${LAGOON_ENVIRONMENT_TYPE:-}
-    LAGOON_PROJECT: *lagoon-project
-    LAGOON_ROUTE: &default-url ${LOCALDEV_URL:-http://govcms8-saas.docker.amazee.io}
-    GOVCMS_IMAGE_VERSION: ${GOVCMS_IMAGE_VERSION:-latest}
-    DEV_MODE: ${DEV_MODE:-false}
-    X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
-    # Allow to override docker host used from the inside of the containers.
-    DOCKERHOST: ${DOCKERHOST:-}
-    XDEBUG_ENABLE: ${XDEBUG_ENABLE:-}
-    GOVCMS_DEPLOY_WORKFLOW_CONFIG: ${GOVCMS_DEPLOY_WORKFLOW_CONFIG:-import}
+x-environment: &default-environment
+  STAGE_FILE_PROXY_URL: ${STAGE_FILE_PROXY_URL:-}
+  LAGOON_ENVIRONMENT_TYPE: ${LAGOON_ENVIRONMENT_TYPE:-}
+  LAGOON_PROJECT: *lagoon-project
+  LAGOON_ROUTE: &default-url ${LOCALDEV_URL:-http://govcms8-saas.docker.amazee.io}
+  GOVCMS_IMAGE_VERSION: ${GOVCMS_IMAGE_VERSION:-latest}
+  DEV_MODE: ${DEV_MODE:-false}
+  X_FRAME_OPTIONS: ${X_FRAME_OPTIONS:-SameOrigin}
+  # Allow to override docker host used from the inside of the containers.
+  DOCKERHOST: ${DOCKERHOST:-}
+  XDEBUG_ENABLE: ${XDEBUG_ENABLE:-}
+  GOVCMS_DEPLOY_WORKFLOW_CONFIG: ${GOVCMS_DEPLOY_WORKFLOW_CONFIG:-import}
 
 services:
 
