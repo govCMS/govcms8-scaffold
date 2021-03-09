@@ -1,5 +1,11 @@
 # GovCMS8 SaaS Project Scaffolding
 
+**This project is deprecated**
+
+Use the 2.0 scaffold: https://github.com/govcms/scaffold
+
+---
+
 This is a composer project which builds a Drupal 8 GovCMS **SaaS** site ready for
 hosting on the GovCMS platform (Lagoon).
 
