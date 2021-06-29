@@ -3,6 +3,7 @@ FROM govcms8lagoon/govcms8:${GOVCMS_IMAGE_VERSION}
 
 COPY themes/ /app/web/themes/custom
 COPY config /app/config
+COPY custom /app/custom
 
 # Default application favicon this will be used for files and server
 # error pages all other favicon requests will be surfaced via Drupal.
